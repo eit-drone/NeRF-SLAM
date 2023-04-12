@@ -55,7 +55,7 @@ class GoProDataset(Dataset):
             self.timestamp += 1
             if self.args.img_stride > 1 and self.timestamp % self.args.img_stride == 0:
                 # Software imposed fps to rate_hz/img_stride
-                continue    
+                continue
 
             timestamps += [self.timestamp]
             poses += [np.eye(4)]  # We don't have poses
@@ -64,6 +64,7 @@ class GoProDataset(Dataset):
             calibs += [self.calib]
             got_image = True
 
+        print("Got image", self.timestamp, "from GoPro")
         return {
             "k": np.arange(self.timestamp - 1, self.timestamp),
             "t_cams": np.array(timestamps),
@@ -104,7 +105,7 @@ class GoProDataset(Dataset):
             -0.0086043436353433,
         )
         body_T_cam0 = np.eye(4)
-        rate_hz = 5 # 25 FPS but skipping every 5 frames
+        rate_hz = 5  # 25 FPS but skipping every 5 frames
 
         resolution = Resolution(w, h)
         pinhole0 = PinholeCameraModel(fx, fy, cx, cy)
