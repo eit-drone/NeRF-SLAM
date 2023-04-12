@@ -101,16 +101,19 @@ class DistortionModel:
         self.model = model
 
 class RadTanDistortionModel(DistortionModel):
-    def __init__(self, k1, k2, p1, p2) -> None:
+    def __init__(self, k1, k2, p1, p2, p3 = None) -> None:
         super().__init__('RadTan')
         # Distortioncoefficients=(k1 k2 p1 p2 k3)  #OpenCV convention
         self.k1 = k1
         self.k2 = k2
         self.p1 = p1
         self.p2 = p2
+        self.p3 = p3
 
     def get_distortion_as_vector(self):
-        return np.array([self.k1, self.k2, self.p1, self.p2])
+        if self.p3 is None:
+            return np.array([self.k1, self.k2, self.p1, self.p2])
+        return np.array([self.k1, self.k2, self.p1, self.p2, self.p3])
 
 class CameraCalibration:
     def __init__(self, body_T_cam, camera_model, distortion_model, rate_hz, resolution, aabb, depth_scale) -> None:

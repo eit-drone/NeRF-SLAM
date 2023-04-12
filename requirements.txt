@@ -21,3 +21,6 @@ pybind11
 gdown
 
 colored_glog
+
+open-gopro==0.12.0
+paho-mqtt==1.6.1
