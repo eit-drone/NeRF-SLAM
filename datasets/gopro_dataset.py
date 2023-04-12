@@ -11,6 +11,7 @@ class GoProDataset(Dataset):
         super().__init__("GoPro", args, device)
         self.capture = MQTTVideoStream()
 
+        self.original_calib = self._get_cam_calib()
         self.calib = self._get_cam_calib()
         self.resize_images = resize_images
 
@@ -42,8 +43,8 @@ class GoProDataset(Dataset):
             # Undistort img
             image = cv2.undistort(
                 frame,
-                self.original_cam_calib.camera_model.matrix(),
-                self.original_cam_calib.distortion_model.get_distortion_as_vector(),
+                self.original_calib.camera_model.matrix(),
+                self.original_calib.distortion_model.get_distortion_as_vector(),
             )
 
             if self.resize_images:
