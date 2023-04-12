@@ -13,7 +13,6 @@ class GoProDataset(Dataset):
         self.capture = MQTTVideoStream()
         self.capture.listen_for_frames()
 
-        self.original_calib = self._get_cam_calib()
         self.calib = self._get_cam_calib()
         self.resize_images = resize_images
 
@@ -42,15 +41,13 @@ class GoProDataset(Dataset):
             if frame is None:
                 continue
 
-            # Undistort img
-            image = cv2.undistort(
-                frame,
-                self.original_calib.camera_model.matrix(),
-                self.original_calib.distortion_model.get_distortion_as_vector(),
-            )
+            image = cv2.resize(frame, (self.w1, self.h1))
 
-            if self.resize_images:
-                image = cv2.resize(image, (self.w1, self.h1))
+            #image = cv2.undistort(
+            #    image,
+            #    self.calib.camera_model.matrix(),
+            #    self.calib.distortion_model.get_distortion_as_vector(),
+            #)
 
             self.timestamp += 1
             if self.args.img_stride > 1 and self.timestamp % self.args.img_stride == 0:
@@ -97,13 +94,14 @@ class GoProDataset(Dataset):
             266.1759474051889,
         )
 
-        k1, k2, p1, p2, p3 = (
-            -6.201146315205147e-05,
-            0.0002860389617367069,
-            -0.27947200915285003,
-            0.1275640762597187,
-            -0.03410419310123914,
-        )
+        # k1, k2, p1, p2, p3 = (
+        #     -6.201146315205147e-05,
+        #     0.0002860389617367069,
+        #     -0.27947200915285003,
+        #     0.1275640762597187,
+        #     -0.03410419310123914,
+        # )
+        k1, k2, p1, p2, p3 = 0, 0, 0, 0, 0
         body_T_cam0 = np.eye(4)
         rate_hz = 5  # 25 FPS but skipping every 5 frames
 
