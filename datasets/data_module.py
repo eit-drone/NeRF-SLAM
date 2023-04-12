@@ -15,7 +15,7 @@ class DataModule(MIMOPipelineModule):
 
     def spin_once(self, input):
         log.check(input)
-        if self.name == "real":
+        if self.name == "real" or self.name == "gopro":
             return self.dataset.stream()
         else:
             self.idx += 1
