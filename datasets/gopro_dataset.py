@@ -39,9 +39,6 @@ class GoProDataset(Dataset):
             if frame is None:
                 continue
 
-            # Convert images to numpy arrays
-            image = np.asanyarray(frame.get_data())
-
             # Undistort img
             image = cv2.undistort(
                 image,
