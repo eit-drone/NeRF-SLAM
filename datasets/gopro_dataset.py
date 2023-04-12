@@ -41,7 +41,7 @@ class GoProDataset(Dataset):
 
             # Undistort img
             image = cv2.undistort(
-                image,
+                frame,
                 self.original_cam_calib.camera_model.matrix(),
                 self.original_cam_calib.distortion_model.get_distortion_as_vector(),
             )
