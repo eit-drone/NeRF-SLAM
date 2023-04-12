@@ -7,7 +7,7 @@ from datasets.relay.mqtt_recv import MQTTVideoStream
 
 
 class GoProDataset(Dataset):
-    def __init__(self, args, device, resize_images=False):
+    def __init__(self, args, device, resize_images=True):
         super().__init__("GoPro", args, device)
         self.timestamp = 0
         self.capture = MQTTVideoStream()
@@ -18,7 +18,7 @@ class GoProDataset(Dataset):
         self.viz = False
 
         if self.resize_images:
-            self.output_image_size = [315, 420]  # h, w
+            self.output_image_size = [360, 480]  # h, w
             h0, w0 = self.calib.resolution.height, self.calib.resolution.width
             total_output_pixels = self.output_image_size[0] * self.output_image_size[1]
             self.h1 = int(h0 * np.sqrt(total_output_pixels / (h0 * w0)))
