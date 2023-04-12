@@ -26,6 +26,9 @@ class GoProDataset(Dataset):
             self.w1 = self.w1 - self.w1 % 8
             self.calib.camera_model.scale_intrinsics(self.w1 / w0, self.h1 / h0)
             self.calib.resolution = Resolution(self.w1, self.h1)
+        else:
+            self.w1 = self.calib.resolution.width
+            self.h1 = self.calib.resolution.height
 
     def stream(self):
         timestamps = []
