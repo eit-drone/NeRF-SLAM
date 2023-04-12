@@ -11,7 +11,7 @@ class GoProDataset(Dataset):
         super().__init__("GoPro", args, device)
         self.timestamp = 0
         self.capture = MQTTVideoStream()
-        self.capture.start()
+        self.capture.listen_for_frames()
 
         self.original_calib = self._get_cam_calib()
         self.calib = self._get_cam_calib()
