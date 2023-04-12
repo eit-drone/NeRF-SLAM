@@ -9,7 +9,9 @@ from datasets.relay.mqtt_recv import MQTTVideoStream
 class GoProDataset(Dataset):
     def __init__(self, args, device, resize_images=True):
         super().__init__("GoPro", args, device)
+        self.timestamp = 0
         self.capture = MQTTVideoStream()
+        self.capture.start()
 
         self.original_calib = self._get_cam_calib()
         self.calib = self._get_cam_calib()
@@ -53,7 +55,7 @@ class GoProDataset(Dataset):
             self.timestamp += 1
             if self.args.img_stride > 1 and self.timestamp % self.args.img_stride == 0:
                 # Software imposed fps to rate_hz/img_stride
-                continue
+                continue    
 
             timestamps += [self.timestamp]
             poses += [np.eye(4)]  # We don't have poses
@@ -118,4 +120,4 @@ class GoProDataset(Dataset):
 
     def shutdown(self):
         # Stop streaming
-        self.capture.release()
+        self.capture.shutdown()
