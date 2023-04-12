@@ -15,6 +15,7 @@ class GoProDataset(Dataset):
 
         self.calib = self._get_cam_calib()
         self.resize_images = resize_images
+        self.viz = False
 
         if self.resize_images:
             self.output_image_size = [315, 420]  # h, w
@@ -44,22 +45,25 @@ class GoProDataset(Dataset):
             if frame is None:
                 continue
             
-            cv2.imshow("Img Raw", frame)
-            cv2.waitKey(1)
+            if self.viz:
+                cv2.imshow("Img Raw", frame)
+                cv2.waitKey(1)
 
             image = cv2.resize(frame, (self.w1, self.h1))
 
-            cv2.imshow("Img Resize", image)
-            cv2.waitKey(1)
+            if self.viz:
+                cv2.imshow("Img Resize", image)
+                cv2.waitKey(1)
 
-            image = cv2.undistort(
-                image,
-                self.calib.camera_model.matrix(),
-                self.calib.distortion_model.get_distortion_as_vector(),
-            )
+            #image = cv2.undistort(
+            #    image,
+            #    self.calib.camera_model.matrix(),
+            #    self.calib.distortion_model.get_distortion_as_vector(),
+            #)
 
-            cv2.imshow("Img Undistort", image)
-            cv2.waitKey(1)
+            # if self.viz:
+            #     cv2.imshow("Img Undistort", image)
+            #     cv2.waitKey(1)
 
             self.timestamp += 1
             if self.args.img_stride > 1 and self.timestamp % self.args.img_stride == 0:
