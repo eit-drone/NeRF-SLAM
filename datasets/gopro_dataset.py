@@ -103,7 +103,7 @@ class GoProDataset(Dataset):
             -0.0086043436353433,
         )
         body_T_cam0 = np.eye(4)
-        rate_hz = 25
+        rate_hz = 5 # 25 FPS but skipping every 5 frames
 
         resolution = Resolution(w, h)
         pinhole0 = PinholeCameraModel(fx, fy, cx, cy)
