@@ -7,7 +7,7 @@ from datasets.relay.mqtt_recv import MQTTVideoStream
 
 
 class GoProDataset(Dataset):
-    def __init__(self, args, device, resize_images=True):
+    def __init__(self, args, device, resize_images=False):
         super().__init__("GoPro", args, device)
         self.timestamp = 0
         self.capture = MQTTVideoStream()
@@ -40,14 +40,23 @@ class GoProDataset(Dataset):
 
             if frame is None:
                 continue
+            
+            cv2.imshow("Img Raw", frame)
+            cv2.waitKey(1)
 
             image = cv2.resize(frame, (self.w1, self.h1))
 
-            #image = cv2.undistort(
-            #    image,
-            #    self.calib.camera_model.matrix(),
-            #    self.calib.distortion_model.get_distortion_as_vector(),
-            #)
+            cv2.imshow("Img Resize", image)
+            cv2.waitKey(1)
+
+            image = cv2.undistort(
+                image,
+                self.calib.camera_model.matrix(),
+                self.calib.distortion_model.get_distortion_as_vector(),
+            )
+
+            cv2.imshow("Img Undistort", image)
+            cv2.waitKey(1)
 
             self.timestamp += 1
             if self.args.img_stride > 1 and self.timestamp % self.args.img_stride == 0:
