@@ -68,6 +68,7 @@ class GoProDataset(Dataset):
             "k": np.arange(self.timestamp - 1, self.timestamp),
             "t_cams": np.array(timestamps),
             "poses": np.array(poses),
+            "depths": np.array(depths),
             "images": np.array(images),
             "calibs": np.array(calibs),
             "is_last_frame": False,  # TODO
