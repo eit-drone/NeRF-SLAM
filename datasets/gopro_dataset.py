@@ -36,7 +36,7 @@ class GoProDataset(Dataset):
         while not got_image:
             frame = self.capture.get_frame()
 
-            if not frame:
+            if frame is None:
                 continue
 
             # Convert images to numpy arrays
