@@ -103,11 +103,18 @@ class GoProDataset(Dataset):
         # TODO: Get calibration from camera with PINHOLE_RADIAL_TANGENTIAL model
 
         w, h = 960, 540
+        # fx, fy, cx, cy= intrinsics.fx, intrinsics.fy, intrinsics.ppx, intrinsics.ppy
+        # fx, fy, cx, cy = (
+        #     439.20174027063297,
+        #     439.20174027063297 / 1.0002917258561743,
+        #     476.8955661316992,
+        #     266.1759474051889,
+        # )
         fx, fy, cx, cy = (
-            439.20174027063297,
-            439.20174027063297 / 1.0002917258561743,
-            476.8955661316992,
-            266.1759474051889,
+            458.41760270584697,
+            458.41760270584697 / 1.000068472727503,
+            480.75761573094576,
+            273.29200937414674,
         )
 
         # k1, k2, p1, p2, p3 = (
